@@ -6,7 +6,7 @@ Created for the class Programming for Game Designers
 import cc_data
 import json
 
-# make a CCDataFile object from a JSON file
+''' make a CCDataFile object from a JSON file '''
 def make_cc_data_file_from_json(json_data):
     cc_file = cc_data.CCDataFile()
 
@@ -20,7 +20,7 @@ def make_cc_data_file_from_json(json_data):
     return cc_file
 
 
-# make a level from the json data
+''' make a level from the json data '''
 def make_level(level_data):
     # gather level data
     cc_level = cc_data.CCLevel()
@@ -44,17 +44,51 @@ def add_opt_fields(opt_fields):
 
         if (name == "title") and (t == 3):
             field_dat = cc_data.CCMapTitleField(val)
+        elif (name == "brown buttons") and (t == 4):
+            add_traps(val)
+        elif (name == "red buttons") and (t == 5):
+            add_machines(val)
         elif (name == "password") and (t == 6):
             field_dat = cc_data.CCEncodedPasswordField(val)
         elif (name == "hint") and (t == 7):
             field_dat = cc_data.CCMapHintField(val)
         elif (name == "monsters") and (t == 10):
-            coors = []
-            for coor in val:
-                x = coor['x']
-                y = coor['y']
-                coors.append(cc_data.CCCoordinate(x, y))
-            field_dat = cc_data.CCMonsterMovementField(coors)
+            add_monsters(val)
         optional_field_list.append(field_dat)
     return optional_field_list
 
+def add_traps(val):
+    # list of trap coors
+        coors = []
+        for coor in val:
+            # button x and y
+            bx = coor['bx']
+            by = coor['by']
+            # trap x and y
+            tx = coor['tx']
+            ty = coor['ty']
+            coors.append(cc_data.CCTrapControl(bx, by, tx, ty))
+        field_dat = cc_data.CCTrapControlsField(coors)
+
+def add_machines(val):
+    # list of machine coors
+        coors = []
+        for coor in val:
+            # button x and y
+            bx = coor['bx']
+            by = coor['by']
+            # machine x and y
+            mx = coor['mx']
+            my = coor['my']
+            coors.append(cc_data.CCCloningMachineControl(bx, by, mx, my))
+        field_dat = cc_data.CCCloningMachineControlsField
+
+def add_monsters(val):
+    # list of monster coors
+        coors = []
+        for coor in val:
+            # monster x and y
+            x = coor['x']
+            y = coor['y']
+            coors.append(cc_data.CCCoordinate(x, y))
+        field_dat = cc_data.CCMonsterMovementField(coors)
