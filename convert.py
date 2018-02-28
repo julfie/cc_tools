@@ -25,10 +25,10 @@ with open (input_json_file) as reader:
 
 #Part 3
 #Load your custom JSON file
-with open("data/jbfields_cc1.json") as reader:
+with open("data/jbfields_testData.json") as reader:
     json_dat = json.load(reader)
 
 #Convert JSON data to cc_data
 data_file = cc_json_utils.make_cc_data_file_from_json(json_dat)
 #Save converted data to DAT file
-cc_dat_utils.write_cc_data_to_dat(data_file, "data/jbfields_cc1.dat")
+cc_dat_utils.write_cc_data_to_dat(data_file, "data/jbfields_testData.dat")
